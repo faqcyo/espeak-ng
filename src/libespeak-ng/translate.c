@@ -1619,7 +1619,7 @@ void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_c
 
 			if ((dict_flags & (FLAG_ALLOW_DOT | FLAG_NEEDS_DOT)) && (ix == word_count - 1 - dictionary_skipwords) && (terminator & CLAUSE_DOT_AFTER_LAST_WORD)) {
 				// probably an abbreviation such as Mr. or B. rather than end of sentence
-				clause_pause = 10;
+				clause_pause = 0;
 				if (tone_out != NULL)
 					*tone_out = 4;
 			}
