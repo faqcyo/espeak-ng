@@ -11,6 +11,8 @@ set_target_properties(espeak-ng-bin PROPERTIES OUTPUT_NAME espeak-ng)
 target_link_libraries(
   espeak-ng-bin PRIVATE espeak-ng espeak-ng-config
 )
+message(STATUS "CMAKE_INSTALL_PREFIX: ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
 set_target_properties(
   espeak-ng-bin PROPERTIES
   MACOSX_RPATH ON

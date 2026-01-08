@@ -793,5 +793,6 @@ int main(int argc, char **argv)
 
 	CloseWavFile();
 	espeak_ng_Terminate();
+  printf("Exited");
 	return 0;
 }

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8...3.10)
 
 project(espeak-ng
   VERSION 1.52.0.1
-  DESCRIPTION "open source speech synthesizer that supports more than hundred languages and accents"
+  DESCRIPTION "fork of the open source speech synthesizer that supports more than hundred languages and accents"
   HOMEPAGE_URL "https://github.com/espeak-ng/espeak-ng"
 )
 
@@ -16,6 +16,9 @@ include(cmake/deps.cmake)
 include(cmake/config.cmake)
 add_subdirectory(src)
 
+message(STATUS "COMPILE_INTONATIONS: ${COMPILE_INTONATIONS}")
+message(STATUS "CMAKE_CROSSCOMPILING: ${CMAKE_CROSSCOMPILING}")
+message(STATUS "NATIVEBUILD: ${NATIVEBUILD}")
 if (COMPILE_INTONATIONS)
   if (CMAKE_CROSSCOMPILING)
     find_program(NATIVEBUILD NAMES espeak-ng PATHS ${NativeBuild_DIR} NO_DEFAULT_PATH)

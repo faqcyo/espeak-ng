@@ -231,3 +231,4 @@ espeak-ng-data/mbrola_ph/*_phtrans
 # fastlane metadata
 !fastlane/metadata/android/*/*.txt
 notes/
+usr/

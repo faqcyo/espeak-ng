@@ -491,7 +491,7 @@ int ReadClause(Translator *tr, char *buf, short *charix, int *charix_top, int n_
 	int terminator;
 	bool any_alnum = false;
 	int punct_data = 0;
-	bool is_end_clause;
+	bool is_end_clause; // This is the key variable
 	int announced_punctuation = 0;
 	bool stressed_word = false;
 	int end_clause_after_tag = 0;
@@ -522,7 +522,14 @@ int ReadClause(Translator *tr, char *buf, short *charix, int *charix_top, int n_
 		c2 = GetC();
 	}
 
+  // loop while any of the following is true:
+  //  1. its not end of file
+  //  2. there an uncaught char
+  //  3. there an alternative? uncaught char
+  //  4. the index of a potentially uncaught string is greater than 0
+  //  I guess that the ungot_char value is also an index. And if not, its the ascii representation of the character.
 	while (!Eof() || (ungot_char != 0) || (ungot_char2 != 0) || (ungot_string_ix >= 0)) {
+    // If the word c1 is not alphanumeric. At the first iteration c1 is always equal to a space char.
 		if (!iswalnum(c1)) {
 			if ((end_character_position > 0) && (count_characters > end_character_position)) {
 				return CLAUSE_EOF;
@@ -537,6 +544,8 @@ int ReadClause(Translator *tr, char *buf, short *charix, int *charix_top, int n_
 				return CLAUSE_NONE;
 			}
 		}
+    // Swap the previous character with the current character.
+    // And set the current character to the next character.
 		int cprev2 = cprev;
 		cprev = c1;
 		c1 = c2;
