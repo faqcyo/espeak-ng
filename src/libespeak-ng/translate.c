@@ -1345,6 +1345,7 @@ void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_c
 				} else if ((word_count > 0) && !(words[word_count-1].flags & FLAG_NOSPACE) && IsAlpha(prev_in)) {
 					// dot after a word, with space following, probably an abbreviation
 					words[word_count-1].flags |= FLAG_HAS_DOT;
+          fprintf(stderr, "[DEBUG] abbreviation detected");
 
 					if (IsSpace(next_in) || (next_in == '-'))
 						c = ' '; // remove the dot if it's followed by a space or hyphen, so that it's not pronounced
