@@ -867,7 +867,7 @@ ESPEAK_API const char* espeak_TextToPhonemesWithTerminator(const void** textptr,
 		return NULL;
 
   bool first_iteration = true;
-  #define ENDS_WITH_ABBREVIATION 0x1000000
+  //#define ENDS_WITH_ABBREVIATION 0x1000000
   char *phonemes = malloc(1);
   int total_len = 0;
   while (*terminator & ENDS_WITH_ABBREVIATION || first_iteration) {

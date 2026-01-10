@@ -923,7 +923,7 @@ static int UpperCaseInWord(Translator *tr, char *word, int c)
 // Used by espeak_TextToPhonemesWithTerminator.
 // Most significant bit on the terminator out will be used to tell whether the clause
 // terminates with an abbreviation or not.
-#define ENDS_WITH_ABBREVIATION 0x10000000
+//#define ENDS_WITH_ABBREVIATION 0x10000000
 void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_change, int *terminator_out)
 {
 	int ix;
