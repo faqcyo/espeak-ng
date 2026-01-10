@@ -1344,7 +1344,7 @@ void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_c
 					space_inserted = true;
 				} else if ((word_count > 0) && !(words[word_count-1].flags & FLAG_NOSPACE) && IsAlpha(prev_in)) {
 					// dot after a word, with space following, probably an abbreviation
-					words[word_count-1].flags |= FLAG_HAS_DOT;
+					words[word_count-1].flags |= (FLAG_HAS_DOT | FLAG_ABBREV);
           fprintf(stderr, "[DEBUG] abbreviation detected2");
 
 					if (IsSpace(next_in) || (next_in == '-'))
@@ -1625,7 +1625,7 @@ void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_c
 			if ((dict_flags & (FLAG_ALLOW_DOT | FLAG_NEEDS_DOT)) && (ix == word_count - 1 - dictionary_skipwords) && (terminator & CLAUSE_DOT_AFTER_LAST_WORD)) {
 				// probably an abbreviation such as Mr. or B. rather than end of sentence
 				clause_pause = 10;
-			  words[word_count-1].flags |= FLAG_HAS_DOT;
+			  words[word_count-1].flags |= (FLAG_HAS_DOT | FLAG_ABBREV);
         fprintf(stderr, "[DEBUG] abbreviation detected, word_count=%d\n", word_count);
 				if (tone_out != NULL)
 					*tone_out = 4;
@@ -1683,9 +1683,12 @@ void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_c
 	}
   //*end_with_abbreviation = (words[word_count-1].flags & FLAG_HAS_DOT) == FLAG_HAS_DOT;
   fprintf(stderr, "[DEBUG] finished!, word_count=%d\n", word_count);
-  if (words[word_count-1].flags & FLAG_HAS_DOT == FLAG_HAS_DOT) {
+  fprintf(stderr, "[DEBUG] is_abbrev=%x, flags=%x\n", (words[word_count-1].flags & FLAG_ABBREV) == FLAG_ABBREV, words[word_count-1].flags);
+  if ((words[word_count-1].flags & FLAG_ABBREV) == FLAG_ABBREV) {
     fprintf(stderr, "[DEBUG] the clause finished with an abbreviation!!!");
-    *terminator_out |= ENDS_WITH_ABBREVIATION;
+    if (terminator_out != NULL) {
+      *terminator_out |= ENDS_WITH_ABBREVIATION;
+    }
   }
   //fprintf(stderr, "[DEBUG] terminator: %x\n", *terminator_out);
   //fprintf(stderr, "[DEBUG] is_abbreviation: %d\n", (words[word_count-1].flags & FLAG_HAS_DOT) == FLAG_HAS_DOT);
