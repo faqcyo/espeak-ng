@@ -868,6 +868,7 @@ ESPEAK_API const char* espeak_TextToPhonemesWithTerminator(const void** textptr,
 
 	TranslateClauseWithTerminator(translator, NULL, NULL, terminator);
 	*textptr = text_decoder_get_buffer(p_decoder);
+  fprintf(stderr, "[ERROR] textptr: %s\n", *textptr);
 
 	return GetTranslatedPhonemeString(phonememode);
 }
