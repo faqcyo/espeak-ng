@@ -921,6 +921,9 @@ static int UpperCaseInWord(Translator *tr, char *word, int c)
 
 // Same as TranslateClause except we also get the clause terminator used (full stop, comma, etc.).
 // Used by espeak_TextToPhonemesWithTerminator.
+// Most significant bit on the terminator out will be used to tell whether the clause
+// terminates with an abbreviation or not.
+#define ENDS_WITH_ABBREVIATION 0x1000000
 void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_change, int *terminator_out)
 {
 	int ix;
@@ -1675,7 +1678,13 @@ void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_c
 		else
 			*voice_change = NULL;
 	}
-  fprintf(stderr, "[DEBUG] is_abbreviation: %s, word_flags: %s\n", (words[word_count-1].flags & FLAG_HAS_DOT) == FLAG_HAS_DOT, words[word_count-1]);
+  //*end_with_abbreviation = (words[word_count-1].flags & FLAG_HAS_DOT) == FLAG_HAS_DOT;
+  if (words[word_count-1].flags & FLAG_HAS_DOT) {
+    *terminator_out |= ENDS_WITH_ABBREVIATION;
+  }
+  //fprintf(stderr, "[DEBUG] terminator: %x\n", *terminator_out);
+  //fprintf(stderr, "[DEBUG] is_abbreviation: %d\n", (words[word_count-1].flags & FLAG_HAS_DOT) == FLAG_HAS_DOT);
+  //fprintf(stderr, "[DEBUG] is_abbreviation: %s, word_flags: %s\n", (words[word_count-1].flags & FLAG_HAS_DOT) == FLAG_HAS_DOT, words[word_count-1]);
 }
 
 void TranslateClause(Translator *tr, int *tone_out, char **voice_change)
