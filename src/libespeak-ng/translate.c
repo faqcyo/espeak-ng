@@ -1626,7 +1626,7 @@ void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_c
 				// probably an abbreviation such as Mr. or B. rather than end of sentence
 				clause_pause = 10;
 			  words[word_count-1].flags |= FLAG_HAS_DOT;
-        fprintf(stderr, "[DEBUG] abbreviation detected");
+        fprintf(stderr, "[DEBUG] abbreviation detected, word_count=%d\n", word_count);
 				if (tone_out != NULL)
 					*tone_out = 4;
 			}
@@ -1682,6 +1682,7 @@ void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_c
 			*voice_change = NULL;
 	}
   //*end_with_abbreviation = (words[word_count-1].flags & FLAG_HAS_DOT) == FLAG_HAS_DOT;
+  fprintf(stderr, "[DEBUG] finished!, word_count=%d\n", word_count);
   if (words[word_count-1].flags & FLAG_HAS_DOT) {
     *terminator_out |= ENDS_WITH_ABBREVIATION;
   }
