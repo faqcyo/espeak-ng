@@ -869,18 +869,20 @@ ESPEAK_API const char* espeak_TextToPhonemesWithTerminator(const void** textptr,
   bool first_iteration = true;
   #define ENDS_WITH_ABBREVIATION 0x1000000
   char *phonemes;
+  int total_len = 0;
   while (*terminator & ENDS_WITH_ABBREVIATION || first_iteration) {
+    first_iteration = false;
 	  TranslateClauseWithTerminator(translator, NULL, NULL, terminator);
 	  *textptr = text_decoder_get_buffer(p_decoder);
     fprintf(stderr, "[DEBUG] textptr: %s, terminator: %x\n", *textptr, terminator);
-    first_iteration = false;
     const char *translated_phonemes = GetTranslatedPhonemeString(phonememode);
-    char *buffer = malloc(strlen(phonemes) + strlen(translated_phonemes) + 1);
-    strcpy(buffer, phonemes);
-    strcpy(buffer + strlen(translated_phonemes), translated_phonemes);
-    free(phonemes);
-    phonemes = buffer;
+    int new_len = total_len + strlen(translated_phonemes);
+    char *tmp = realloc(phonemes, new_len + 1);
+    phonemes = tmp;
+    strcpy(phonemes + total_len, translated_phonemes); 
+    total_len = new_len;
   }
+  //return GetTranslatedPhonemeString(phonememode);
 
 	return phonemes;
 }
