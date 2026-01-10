@@ -1683,7 +1683,7 @@ void TranslateClauseWithTerminator(Translator *tr, int *tone_out, char **voice_c
 	}
   //*end_with_abbreviation = (words[word_count-1].flags & FLAG_HAS_DOT) == FLAG_HAS_DOT;
   fprintf(stderr, "[DEBUG] finished!, word_count=%d\n", word_count);
-  if (words[word_count-1].flags & FLAG_HAS_DOT) {
+  if (words[word_count-1].flags & FLAG_HAS_DOT == FLAG_HAS_DOT) {
     fprintf(stderr, "[DEBUG] the clause finished with an abbreviation!!!");
     *terminator_out |= ENDS_WITH_ABBREVIATION;
   }
